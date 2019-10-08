@@ -1,0 +1,537 @@
+@charset "utf-8";
+body{
+  margin: 0;
+  padding: 0;
+  color: #595657;
+  font-family: "Hiragino kaku Gothic ProN", Meiryo, sans-serif;
+
+}
+h1,h2,h3,h4,h5,h6,p{
+  margin: 0;
+  padding: 0;
+}
+a:link, a:visited, a:active{
+  color: #595657;
+  text-decoration: none;
+}
+a:hover{
+  transition: 0.15s;
+  opacity: 0.70;
+  text-decoration: underline;
+}
+/*===============================
+　　エラーメッセージ
+================================*/
+.err_msg_area{
+  color: #e45252;
+}
+label.err input,
+label.err textarea{ 
+  background: #fac9d3;
+}
+
+
+/*===============================
+　　ヘッダー
+================================*/
+header{
+  background: #e6e6e6;
+  height: 60px;
+  width: 100%;
+  margin-bottom: 60px;
+}
+header h1{
+  float: left;
+  padding-left: 15px;
+  line-height: 60px;
+}
+header h1 > a:hover{
+  transition: 0;
+  opacity: 1;
+  text-decoration: none;
+}
+
+/*=+=+=+=+=+=+=+=+=+=+=+=
+　　ナビゲーション
+=+=+=+=+=+=+=+=+=+=+=+=*/
+.top-nav{
+  float: right;
+}
+.top-nav ul{
+  list-style: none;
+  line-height: 60px;
+  margin: 0;
+}
+.top-nav li{
+  float: left;
+  height: 60px;
+}
+.top-nav .sign-up,
+.top-nav .nav-irustpost{
+  float: left;
+  padding: 0 15px;
+  background: #85c39d;
+}
+.nav-item{
+  padding: 18px;
+}
+/*=+=+=+=+=+=+=+=+=+=+=+=
+　　ヘッダー内検索バー
+=+=+=+=+=+=+=+=+=+=+=+=*/
+.search-form{
+  line-height: 60px;
+}
+.search-form input[type="text"]{
+  width: 150px;
+  height: 26px;
+  margin-left: 10px;
+  font-size: 13px;
+  outline: none;
+  border: 1px solid #d0d0d0;
+  border-radius: 7px;
+  transition: all .3s;
+}
+.search-form input[type="text"]:focus{
+  box-shadow: 0 0 10px #85c39d;
+  border: 1px solid #85c39d;
+}
+.search-form button[type="submit"]{
+  height: 22px;
+  position: relative;
+  right: 35px;
+  top: 1px;
+  background: none;
+  border: none;
+  font-size: 15px;
+}
+.search-form button[type="submit"]:hover{
+  cursor: pointer;
+}
+/*
+*/
+#content{
+  max-width: 1120px;
+  min-height: 650px;
+  margin: 0 auto 60px;
+}
+#main{
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+/*===============================
+　　トップ画面
+================================*/
+#main-home{
+  min-height: 700px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+/*==============================
+  イラスト詳細画面
+==============================*/
+.irust-details{
+  overflow: hidden;
+}
+.irust-item{
+  float: left;
+  margin-bottom: 50px;
+}
+.main-irust{
+  width: 900px;
+  height: 900px;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+.main-irust img{
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit:contain;
+  background:#e6e6e6;
+}
+.sub-irust-list{
+  overflow: hidden;
+}
+.sub-irust{
+  width: 170px;
+  height: 170px;
+  margin-right: 15px;
+  float: left;
+  cursor: pointer;
+}
+.sub-irust img{
+  width: 100%;
+  height: 100%;
+  object-fit:cover;
+  background:#e6e6e6;
+  border-radius: 8px;
+  float: left;
+}
+.irust-user{
+  margin-top: 60px;
+  margin-left: 140px;
+  float: left;
+}
+.irust-user a{
+  font-size: 20px;
+}
+.irust-user-panel{
+  width: 80px;
+  height:80px;
+  margin-bottom: 30px;
+}
+.irust-user-panel img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.title-area{
+  width: 95%;
+  padding: 10px;
+  margin: 0 auto;
+}
+.title-area > h2,
+.title-area a{
+  display: block;
+  padding: 8px 0;
+}
+.author-comment > p{
+  width: 80%;
+  height:100px;
+  padding: 8px 0;
+}
+.comment-area{
+  width: 90%;
+  margin: 0 auto;
+}
+.comment-post{
+  overflow: hidden;
+  margin-bottom: 25px;
+}
+.comment-post h3{
+  font-size: 0.9rem;
+}
+.comment-text,
+.comment-text textarea{
+  width: 85%;
+  float: left;
+}
+.comment-text input[type="submit"]{
+  font-size: 15px;
+  padding: 4px 10px;
+  margin-left: 3px;
+  float: left;
+}
+.comment-list{
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.comment-img{
+  width: 50px;
+  height: 50px;
+  padding: 20px;
+  float: left;
+}
+.comment-list img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.comment-user{
+  padding-top: 20px;
+  float: left;
+}
+.comment-user p{
+  width: 550px;
+  letter-spacing: 0;
+}
+.comment-user span{
+  font-weight: 200;
+  font-size: 13px;
+  color: #949092;
+}
+/*==============================
+  その他画面レイアウト
+===============================*/
+.mypage-prof{
+  overflow: hidden;
+  padding: 60px;
+}
+.prof-body{
+  padding-top: 10px;
+  padding-left: 40px;
+  overflow: hidden;
+}
+.prof-item{
+  padding:20px;
+  float: left;
+}
+.prof-comment{
+  float: left;
+  width: 700px;
+  height: 100px;
+}
+.list{
+  overflow: hidden;
+}
+.list ul{
+  padding: 15px 0;
+}
+.list li{
+  list-style: none;
+  float: left;
+}
+.list h3,
+.work-list h3{
+  padding: 7px;
+  border-left: 7px solid #85c39d;
+}
+
+/*=============================
+    フォーム
+==============================*/
+label{
+  display: block;
+}
+input[type="text"],
+input[type="password"]{
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 100%;
+  height: 60px;
+  font-size: 17px;
+  outline: none;
+  border: 1px solid #d0d0d0;
+  border-radius: 7px;
+  transition: all .3s;
+}
+input[type="checkbox"]{
+  width: 17px;
+  height: 17px;
+}
+textarea{
+  box-sizing: border-box;
+  width: 100%;
+  height: 150px;
+  font-size: 17px;
+  outline: none;
+  border: 1px solid #d0d0d0;
+  border-radius: 7px;
+  transition: all .3s;
+}
+.form input[type="text"]:focus,
+.form input[type="password"]:focus,
+.form textarea:focus{
+  box-shadow: 0 0 15px #85c39d;
+  border: 1px solid #85c39d;
+}
+.form-container{
+  margin: 0 auto;
+  width: 50%;
+  padding: 30px;
+  background: #e6e6e6;
+  box-shadow: 0 0 6px rgba(0,0,0,0.15);
+}
+.irustEdit-form{
+  margin: 0 auto;
+  width: 60%;
+  padding: 30px;
+  background: #e6e6e6;
+  overflow: hidden;
+  box-shadow: 0 0 6px rgba(0,0,0,0.15);
+}
+.coment-form{
+  overflow: hidden;
+}
+.coment-form span{
+  float: right;
+}
+.form-container h2,
+.work-manage h2,
+.irustEdit-form-container h2{
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.7rem;
+}
+.form{
+  background: #e6e6e6;
+}
+.form span{
+  font-size: 15px;
+}
+.form .area-drop{
+  width: 100%;
+  height: 250px;
+  background: #ccc;
+  margin-bottom: 25px;
+  text-align: center;
+  line-height: 250px;
+  color: #807c7d;
+  position: relative;
+  box-sizing: border-box;
+}
+.form .input-file{
+  opacity: 0;
+  width: 100%;
+  height: 250px;
+  position: relative;
+  bottom: 120px;
+  z-index: 2; /* 必ずz-indexをつけないと登録画像を変更する際にドラッグ＆ドロップできなくなる*/
+}
+.form .prev-img{
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/*----------------
+ ログインフォーム用
+-----------------*/
+.form-container a{
+  text-decoration: underline;
+}
+/*----------------
+  退会フォーム用
+-----------------*/
+.form-quit h2{
+  margin-bottom: 30px;
+}
+.form-quit p{
+  text-align: center;
+}
+/*==============================
+    ボタン
+===============================*/
+input[type="submit"]{
+  background: #85c39d;
+  color: #595657;
+  cursor: pointer;
+  border: none;
+}
+input[type="submit"]:hover{
+  transition: 0.15s;
+  background: #65b382;
+}
+.btn-container{
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+.btn{
+  width: 100%;
+  padding: 13px;
+  font-size: 20px;
+  border-radius: 7px;
+}
+.prof-btn{
+  display: block;
+  margin: 10px 0 10px 400px;
+  padding: 4px;
+  background: #e6e6e6;
+  border-radius: 7px;
+}
+/*=+=+=+=+=+=+=+=+=+=+=+=
+  戻るボタン
+=+=+=+=+=+=+=+=+=+=+=+=*/
+#main .return{
+  display: block;
+  margin-top: 50px;
+  margin-left: 100px;
+}
+
+/*==============================
+    画像
+===============================*/
+.panel{
+  margin: 0 12px 22px 12px;
+}
+.panel-head{
+  width: 200px;
+  height: 190px;
+}
+.panel-head img{
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit:contain;
+  background:#e6e6e6;
+}
+.panel .author{
+  font-size: 15px;
+  font-weight: 300;
+}
+.prof-img{
+  left: 50px;
+  width: 150px;
+  height: 150px;
+  float: left;
+}
+.prof-img img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+
+/*===============================
+　　ページネーション
+================================*/
+.pagenation{
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 60px;
+}
+.pagenation-list{
+  position: relative;
+  left: 50%;
+  padding-left: 0;
+  float: left;
+  list-style: none;
+}
+.pagenation .list-item{
+  position: relative;
+  left: -50%;
+  float: left;
+  margin-right: 5px;
+}
+.pagenation .list-item a{
+  display: block;
+  padding: 8px 15px;
+  border-radius: 20px;
+}
+.pagenation .list-item.active a{
+  background: #e6e6e6;
+}
+.pagenation .list-item a:hover{
+  background: #e6e6e6;
+  transition: 0.15s;
+}
+/*===============================
+　　フッター
+================================*/
+footer{
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+  background: #e6e6e6;
+  font-size: 12px;
+}
+
+/*===============================
+　　jsメッセージ
+================================*/
+.msg-slide{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  background: rgba(122,206,230,0.6);
+  text-align: center;
+  font-size: 16px;
+  line-height: 40px;
+}
