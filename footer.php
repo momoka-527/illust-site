@@ -55,6 +55,29 @@
     $switchImgSubs.on('click',function(e){
       $switchImgMain.attr('src',$(this).attr('src')); //this＝クリックしたもの
     });
+
+    //お気に入り登録、削除
+    var $like,
+        likeIllustId;
+    $like = $('.js-click-like') || null; //値がない場合にjsが自動的に入れるundefinedが入らないようにnull入れる
+    likeIllustId = $like.data('illustid') || null;
+
+    if(likeIllustId !== undefined && likeIllustId !== null){
+      $like.on('click',function(){
+        var $this = $(this);
+        $.ajax({
+          type: "POST",
+          url: "ajaxLike.php",
+          data: { illustId : likeIllustId }
+        }).done(function( data ){
+          //クラス属性をtoggleで付け外しする
+          console.log('Ajax success');
+          $this.toggleClass('active');
+        }).fail(function( msg ){
+          console.log('Ajax Error');
+        })
+      })
+    }
     });
 </script>
 </body>

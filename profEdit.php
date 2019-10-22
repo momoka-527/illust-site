@@ -16,7 +16,7 @@ require('auth.php');
 //DBからユーザー情報を取得する
 $dbFormData = getUser($_SESSION['user_id']);
 
-debug('取得したユーザーの情報：'.print_r($_SESSION,true));
+debug('取得したユーザーの情報：$dbFormData:'.print_r($dbFormData,true));
 
 //POST送信されていた場合
 if(!empty($_POST)){
@@ -45,11 +45,11 @@ if(!empty($_POST)){
     validEmail($email, 'email');
     validRequired($email, 'email');
   }
-  /*if($dbFormData['picture'] !== $pic){
-
-  }*/
+  if(empty($picture)){
+    $picture = $dbFormData['picture'];
+  }
   if($dbFormData['comment'] !== $comment){
-    validMaxLen($comment, 'comment');
+    validMaxLen($comment, 'comment', 500);
   }
   if(empty($err_msg)){
     debug('バリデーションチェッククリア');
@@ -71,10 +71,7 @@ if(!empty($_POST)){
         $_SESSION['msg_success'] = SUC02;
         debug('マイページへ遷移します');
         header("Location:mypage.php"); //マイページへ
-      //クエリ失敗の場合
-//      }else{
-//        debug('クエリ失敗');
-//        $err_msg['common'] = MSG07;
+
       }
     }catch(Exception $e){
       error_log('エラー発生：'.$e->getMessage());
@@ -132,7 +129,8 @@ require('head.php');
           <label class="<?php if(!empty($err_msg['comment'])) echo 'err' ?>">
             自己紹介
             <span class="err_msg_area"><?php if(!empty($err_msg['comment'])) echo $err_msg['comment']; ?></span>
-            <textarea name="comment" rows="8" cols="80"><?php echo getFormData('comment') ?></textarea>
+            <textarea name="comment" rows="8" cols="80" id="js-count"><?php echo getFormData('comment') ?></textarea>
+            <p class="counter-text" style="float:right;"><span id="js-count-view">0</span>/500文字</p>
           </label>
           <div class="btn-container">
             <input type="submit" class="btn btn-mid" value="更新する">

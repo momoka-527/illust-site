@@ -89,9 +89,8 @@ require('head.php');
   ?>
 
   <!-- メインコンテンツ -->
-  <div id="content">
-    <section id="main">
-      <div class="irust-details">
+  <section class="irust-page">
+    <div class="irust-details">
         <div class="irust-item">
             <div class="main-irust">
                 <img src="<?php echo showImg(sanitize($viewData['pic1'])); ?>" alt="メイン画像：<?php sanitize($viewData['title']); ?>" id="js-switch-img-main">
@@ -109,32 +108,23 @@ require('head.php');
             </div>
         </div>
 
-        <!-- 投稿者情報 -->
-        <div class="irust-user">
-          <div class="irust-user-panel">
-            <img src="<?php echo showImg(sanitize($viewData['picture'])); ?>" alt="<?php echo sanitize($viewData['nickname']); ?>">
-          </div>
-          <div>
-            <a href="mypage.php"><?php echo sanitize($viewData['nickname']); ?></a>
-          </div>
 
-          <!--他人のみ-->
-          <div>
-            <input type="submit" name="follow" value="フォローする">
-          </div>
 
-        </div>
+      <!-- お気に入りマーク -->
+      <div>
+        <i class="fas fa-heart fa-2x icn-like js-click-like <?php if(isLike($_SESSION['user_id'], $viewData['id'])){
+        echo 'active'; } ?>" aria-hidden="true" data-illustid="<?php echo sanitize($viewData['id']); ?>" ></i>
       </div>
 
-        <div class="title-area">
-          <h2><?php echo sanitize($viewData['title']); ?></h2>
+      <div class="title-area">
+        <h2><?php echo sanitize($viewData['title']); ?></h2>
 
-            <a href="#" style="display:inline-block;">#<?php echo sanitize($viewData['tag']); ?></a>
+          <a href="#" style="display:inline-block;">#<?php echo sanitize($viewData['tag']); ?></a>
 
-          <div class="author-comment">
-            <p><?php echo sanitize($viewData['comment']); ?></p>
-          </div>
+        <div class="author-comment">
+          <p><?php echo sanitize($viewData['comment']); ?></p>
         </div>
+      </div>
 
       <!-- コメント欄 -->
         <div class="comment-area">
@@ -172,8 +162,25 @@ require('head.php');
         <?php endforeach; ?>
 
 
-    </section>
-  </div>
+    </div>
+    <!-- 投稿者情報 -->
+    <div class="author">
+      <div class="irust-user">
+        <div class="irust-user-panel">
+          <img src="<?php echo showImg(sanitize($viewData['picture'])); ?>" alt="<?php echo sanitize($viewData['nickname']); ?>">
+        </div>
+        <div>
+          <a href="mypage.php"><?php echo sanitize($viewData['nickname']); ?></a>
+        </div>
+
+        <!--他人のみ-->
+        <div>
+          <input type="submit" name="follow" value="フォローする">
+        </div>
+
+      </div>
+    </div>
+  </section>
 
   <!-- フッター -->
   <?php

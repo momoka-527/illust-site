@@ -68,7 +68,6 @@ define('SUC01','パスワードを変更しました。');
 define('SUC02','プロフィールを変更しました。');
 define('SUC03','メールを送信しました。');
 define('SUC04','登録しました。');
-define('SUC05','コメントを投稿しました。');
 
 //■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-
 //  バリデーション関数
@@ -226,13 +225,66 @@ function getTag(){
     if($stmt){
       //クエリ結果の全情報を返却
       return $stmt->fetchAll();
-      debug('$stmtの中身：'.print_r($stmt,true));
     }else{
       return false;
     }
   }catch(Exception $e){
     error_log('エラー発生：'.$e->getMessage());
     $err_msg['common'] = MSG07;
+  }
+}
+
+//投稿作品を取ってくる
+function getIllust($u_id){
+  debug('投稿作品の情報を取得します。');
+  debug('ユーザーID:'.print_r($u_id,true));
+
+  //例外処理
+  try{
+    //DB接続
+    $dbh = dbConnect();
+    //SQL作成
+    $sql = 'SELECT id, title, pic1 FROM illustration WHERE user_id = :u_id AND delete_flg = 0';
+    $data = array(':u_id' => $u_id);
+
+    //SQL実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if($stmt){
+      $result = $stmt->fetchAll();
+      return $result;
+    }else{
+      return false;
+    }
+  }catch(Exception $e){
+    error_log('エラー発生：'.$e->getMessage());
+  }
+
+}
+
+//お気に入りした作品を取得する
+function getBookmark($u_id){
+  debug('お気に入りに登録した作品を取得します。');
+  debug('ユーザーID:'.$u_id);
+
+  try{
+    //DB接続
+    $dbh = dbConnect();
+    //SQL作成 bookmark illusration users
+    $sql = 'SELECT b.illustration_id, b.user_id, u.nickname, i.title, i.pic1
+    FROM bookmark AS b LEFT JOIN users AS u ON b.user_id = u.id LEFT JOIN illustration AS i ON b.illustration_id = i.id
+    WHERE b.user_id = :u_id AND b.delete_flg = 0';
+    $data = array(':u_id' => $u_id);
+    //SLQ実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if($stmt){
+      return $stmt->fetchAll();
+    }else{
+      return false;
+    }
+  }catch(Exception $e){
+    error_log('エラー発生：'.$e->getMessage());
   }
 }
 
@@ -289,6 +341,32 @@ function uploadImg($file, $key){
       global $err_msg;
       $err_msg[$key] = $e->getMessage();
     }
+  }
+}
+
+function isLike($u_id, $p_id){
+  debug('お気に入り情報があるか確認します。');
+  debug('ユーザーID：'.$u_id);
+  debug('イラストID:'.$p_id);
+  //例外処理
+  try{
+    //DB接続
+    $dbh = dbConnect();
+    //SQL作成
+    $sql = 'SELECT * FROM bookmark WHERE illustration_id = :p_id AND user_id = :u_id';
+    $data = array(':u_id' => $u_id, ':p_id' => $p_id);
+    //クエリ実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if($stmt->rowCount()){
+      debug('お気に入りに登録済み');
+      return true;
+    }else{
+      debug('お気に入りに入っていません。');
+      return false;
+    }
+  }catch(Exception $e){
+    error_log('エラー発生'.$e->getMessage());
   }
 }
 
@@ -353,19 +431,18 @@ function showImg($path){
   }
 }
 
-function getProduct($user_id, $p_id, $tag_id){
+function getProduct($u_id, $p_id){
   debug('商品情報を取得します。');
-  debug('ユーザーID：'.$user_id);
-  debug('商品ID：'.$p_id);
-  debug('タグ：'.$tag_id);
+  debug('ユーザーID：'.$u_id);
+  debug('イラストID：'.$p_id);
 
   //例外処理
   try{
     //DBへ接続
     $dbh = dbConnect();
     //SQL文作成
-    $sql = 'SELECT * FROM illustration WHERE user_id = :user_id AND id = :p_id AND tag_id = :tag_id AND delete_flg = 0';
-    $data = array(':user_id' => $user_id, ':p_id' => $p_id, ':tag_id' => $tag_id);
+    $sql = 'SELECT * FROM illustration WHERE user_id = :user_id AND id = :p_id AND delete_flg = 0';
+    $data = array(':user_id' => $u_id, ':p_id' => $p_id);
     //クエリ実行
     $stmt = queryPost($dbh, $sql, $data);
 
@@ -453,6 +530,31 @@ function makeRandKey($length = 8){
   return $str;
 }
 
+//ログイン認証
+function isLogin(){
+  //ログインしている場合
+  if(!empty($_SESSION['login_date'])){
+    debug('ログイン済みユーザーです。');
+
+    //現在日時が最終ログイン日時＋ログイン有効期限を超えていた場合
+    if(($_SESSION['login_date'] + $_SESSION['login_limit']) < time()){
+      debug('ログイン有効期限オーバーです。');
+
+      //セッションを削除（ログアウトする）
+      session_destroy();
+      return false;
+
+    //超えていない場合
+    }else{
+      debug('ログイン有効期限内です。');
+      return true;
+    }
+  }else{
+    debug('未ログインユーザーです。');
+    return false;
+  }
+}
+
 //■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-
 //  メール送信
 //■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-
@@ -476,7 +578,7 @@ function sendMail($from, $to, $subject, $comment){
 
 
 //■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-
-//  データベース関連
+//  データベース接続用
 //■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-
 
 //DB接続用関数
@@ -514,7 +616,8 @@ function queryPost($dbh, $sql, $data){
   debug('クエリ成功');
   return $stmt;
 }
-//ユーザー情報を取得してくる関数
+
+//ユーザー情報を取得してくる
 function getUser($user_id){
   debug('ユーザー情報を取得します。');
   //例外処理
@@ -537,8 +640,31 @@ function getUser($user_id){
   }catch(Exception $e){
     error_log('エラー発生：'.$e->getMessage());
   }
-  //クエリ結果のデータを返却
-//  return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+//ユーザー詳細取得
+function getUserDetail($u_id){
+  debug('ユーザー詳細を取得します');
+  debug('ユーザーID:'.print_r($u_id,true));
+
+  try{
+    //DB接続
+    $dbh = dbConnect();
+    //SQL作成
+    $sql = 'SELECT nickname, picture, comment FROM users WHERE id = :u_id AND delete_flg = 0';
+    $data = array(':u_id' => $u_id);
+    //SQL実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if($stmt){
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    }else{
+      return false;
+    }
+  }catch(exception $e){
+    error_log('エラー発生：'.$e->getMessage());
+  }
 }
 
 //■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-■-
